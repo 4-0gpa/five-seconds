@@ -1,5 +1,5 @@
 pre-commit-config.yaml
-/node_modules
+node_modules
 /.pnp
 .pnp.*
 .yarn/*
