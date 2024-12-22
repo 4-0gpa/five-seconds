@@ -22,7 +22,7 @@ To get started with the Next.js backend and MongoDB, follow the steps below to s
 
 ### 1. **Install Dependencies**
 
-```bash
+```console
 $ make config
 ```
 
@@ -37,7 +37,8 @@ MONGODB_URI=mongodb://your-username:your-password@localhost:27017/your-database-
 
 ### 3. **Run the Next.js Application**
 
-```bash
+```console
+$ cd ./src/backend/five_seconds/
 $ npm run dev
 ```
 
