@@ -1,3 +1,3 @@
 # Frontend code
 
-Contains the actual frontend code.
+Contains the frontend code that is placed within `src/app/`.
