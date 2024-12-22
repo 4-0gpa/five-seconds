@@ -11,10 +11,16 @@ The `five-seconds` project provides a secure, encrypted one-way passphrase solut
 
 This was initially created as part of the solution to the **Digital Defences** problem at the [YouthxHack 2024 Hackathon](https://www.cyberyouth.sg/events/youthxhack-2024-total-defence-edition).
 
+### 📲 **Technologies**
+
+1. Frontend
+2. Backend
+    * Next.js
+    * MongoDB
+
 ### 🛠️ **Architecture**
 
 ![Architecture](./asset/architecture_diagram.png)
-
 
 ## 🚀 **Quick Start (for developers)**
 
@@ -49,6 +55,34 @@ $ npm run dev
 - **List users**: `/api/users`
 - **Create post**: `/api/posts`
 - **Get post by specific ID**: `/api/posts/[id]`
+
+## 👐 **Contributors** 
+
+<table>
+	<tbody>
+        <tr>
+            <td align="center">
+                <a href="https://www.linkedin.com/in/bethloke/">
+                    <img src="https://avatars.githubusercontent.com/u/96629569?v=4" width="100;" alt="huitingloke"/>
+                    <br />
+                    <sub><b>Bethel Loke</b></sub>
+                </a>
+                <br />
+                <sub><a href="./src/frontend/">Frontend<a>  Developer</sub>
+            </td>
+            <td align="center">
+                <a href="https://www.linkedin.com/in/gabriel-zmong/">
+                    <img src="https://avatars.githubusercontent.com/u/117062305?v=4" width="100;" alt="gongahkia"/>
+                    <br />
+                    <sub><b>Gabriel Ong</b></sub>
+                </a>
+                <br />
+                <sub><a href="./src/backend/">Backend<a>  Developer</sub>
+            </td>
+        </tr>
+	</tbody>
+</table>
+
 
 ## 💬 **Contact**
 
