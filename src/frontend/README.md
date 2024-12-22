@@ -1,3 +1,3 @@
 # Frontend code
 
-Contains the frontend code.
+Contains the actual frontend code.
