@@ -15,10 +15,6 @@ This was initially created as part of the solution to the **Digital Defences** p
 
 ![Architecture](./asset/architecture_diagram.png)
 
-## 🚀 **Quick Start (for developers)**
-
-> TODO add documentation for this if needed
-
 ## 👐 **Contributors** 
 
 <table>
