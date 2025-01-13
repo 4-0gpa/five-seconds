@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label'
 interface LoginFormProps {
   type: 'personal' | 'enterprise'
   onSubmit?: (email: string, password: string) => void
+
 }
 
 export function LoginForm({ type, onSubmit }: LoginFormProps) {
@@ -19,6 +20,8 @@ export function LoginForm({ type, onSubmit }: LoginFormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     onSubmit?.(email, password)
+
+    
   }
 
   return (
