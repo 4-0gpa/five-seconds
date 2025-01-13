@@ -6,6 +6,7 @@ import { ChevronLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { sha3_512 } from 'js-sha3'
 
 interface RegisterFormProps {
   type: 'personal' | 'enterprise'
