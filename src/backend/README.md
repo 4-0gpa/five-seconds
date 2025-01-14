@@ -11,7 +11,7 @@ Contains the actual backend code.
     * Windows: `env\Scripts\activate`
     * Linux: `source env/bin/activate`
 * Install the required packages with `pip install -r requirements.txt`
-* Run the Flask server with `flask --app hello run`
+* Run the Flask server with `flask --app main run`
     * Do ensure you have in fact `cd`ed into the correct directory as running Flask with `python` or `python3` will not work
 
 > [!NOTE]
