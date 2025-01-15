@@ -27,22 +27,27 @@ export function LoginForm({ type, onSubmit }: LoginFormProps) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Hash the password before sending it to the backend
+    // Hash the password (ensure you've imported sha3_512 or similar)
     const hashedPassword = sha3_512(password).toString();
-    
+
     try {
-      const response = await axios.post('http://localhost:5000/login/', {
-        email,
-        hashedPassword
+      const response = await axios.post('http://localhost:5000/login', {
+        email: email,
+        hashedPassword: hashedPassword
       }, {
         headers: {
-          'Content-Type': 'application/json',  // Ensure this is set to trigger OPTIONS request
+          'Content-Type': 'application/json',
         }
       });
 
-      if (response.data.status === '1') {
-        setMessage(`Welcome, ${response.data.user}! Your account type is ${response.data.type}.`);
-      } else {
+      console.log(response.data);
+
+      if (response.data.status && response.data.type == 'company') {
+        router.push("/dashboard/insights")
+      } else if (response.data.status && response.data.type == 'user') {
+        router.push("/dashboard/inbox")
+      }
+      else {
         setMessage(`Error: ${response.data.error}`);
       }
     } catch (error) {
