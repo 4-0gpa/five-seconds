@@ -10,7 +10,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
-CORS(app, origins='*', methods=['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'], supports_credentials=True)
+CORS(app, origins='*', methods=['GET', 'POST'], supports_credentials=True)
 # Application Default credentials are automatically created.
 fire_app = firebase_admin.initialize_app()
 db = firestore.client()
@@ -26,7 +26,7 @@ def getUser():
     if request.method == 'OPTIONS':
         return '', 200  
     
-    data = request.get_json()
+    data = request.get_json(force=True)
     print(data, file=sys.stderr)
 
     user = data.get('email', 'NIL')
@@ -45,17 +45,17 @@ def getUser():
         if hashed_password == results['password']:
             return jsonify({
                 'user': f'{user}',
-                'status': '1',
+                'status': True,
                 'type': f"{results['type']}"
             })
         return jsonify({
             'user': f'{user}',
-            'status': '0',
+            'status': True,
             'error': "Incorrect Password"
         })
     return jsonify({
             'user': f'{user}',
-            'status': '0',
+            'status': False,
             'error': f"User {user} not found"
         })
 
@@ -83,18 +83,22 @@ def hash_creation():
     })
     
     return jsonify({
-        'status': '1',
+        'status': True,
     })
 
 ## GET HASH OF INDIVIDUAL CUSTOMER -- MUST CHANGE IT TO BE COMPANY/HASH SOON
-@app.route("/passphrase/<hash>")
+@app.route("/passphrase/<hash>", methods=["GET"])
 def password(hash):
 
     doc_ref = db.collection("PASSPHRASE").document(hash)
     doc = doc_ref.get()
 
     if doc.exists:
-        return doc.to_dict()
+        results = doc.to_dict()
+        return jsonify({
+            'results': results,
+            'status': '1'
+        })
         # passphrase would be under "pass"
 
     return jsonify({
@@ -122,7 +126,15 @@ def all_company(company):
     })
 
 
-@app.route("/test", method=['GET'])
+@app.route("/test", methods=['GET'])
 def test():
     print("testtttt", file=sys.stderr)
     return "test"
+
+@app.route("/post_test", methods=['POST'])
+def post_test():
+
+    print("SKDFKALJKFSD",request.data, file=sys.stderr)
+    data = request.get_json(force=True, silent=True)
+    testing_var = data.get('test', 'NIL')
+    return testing_var
