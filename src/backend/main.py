@@ -4,6 +4,7 @@ import firebase_admin
 from firebase_admin import firestore
 import requests
 import sys
+import hashlib
 
 import logging
 logging.basicConfig(level=logging.DEBUG)
@@ -26,6 +27,7 @@ def getUser():
         return '', 200  
     
     data = request.get_json()
+    print(data, file=sys.stderr)
 
     user = data.get('email', 'NIL')
     hashed_password = data.get('hashedPassword', "NIL")
@@ -36,9 +38,9 @@ def getUser():
     if doc.exists:
         results = doc.to_dict()
         try:
-            app.logger.info(f'{user} {hashed_password} {results["type"]}')
+            print(f'{user} {hashed_password} {results["type"]}', file=sys.stderr)
         except: 
-            app.logger.info("not found")
+            print("not found", file=sys.stderr)
         # passphrase would be under "pass"
         if hashed_password == results['password']:
             return jsonify({
@@ -51,12 +53,38 @@ def getUser():
             'status': '0',
             'error': "Incorrect Password"
         })
-
     return jsonify({
             'user': f'{user}',
             'status': '0',
             'error': f"User {user} not found"
         })
+
+@app.route("/hash_creation/", methods=['POST'])
+def hash_creation():
+    data = request.get_json()
+    hashed_user_email, hashed_company_email, salt_phrase, passphrase = data.get('hashed_user_email', 'NIL'), data.get('hashed_company_email', 'NIL'), data.get('salt_phrase', 'NIL'), data.get('passphrase', 'NIL')
+    if hashed_user_email == 'NIL' or hashed_company_email == 'NIL' or salt_phrase == 'NIL' or passphrase == 'NIL':
+        return jsonify({
+            'status': '0',
+            'error': "Invalid Input"
+        })
+    combined_statement = hashed_user_email + hashed_company_email + salt_phrase
+    key = hashlib.sha3_512(combined_statement.encode()).hexdigest()
+    value = passphrase
+    information = {
+        "hashed_user_email": hashed_user_email,
+        "hashed_company_email": hashed_company_email,
+        "salt_phrase": salt_phrase
+    }
+
+    db.collection("USERS").document(key).set({
+        "passphrase": value,
+        "information": information
+    })
+    
+    return jsonify({
+        'status': '1',
+    })
 
 ## GET HASH OF INDIVIDUAL CUSTOMER -- MUST CHANGE IT TO BE COMPANY/HASH SOON
 @app.route("/passphrase/<hash>")
@@ -68,11 +96,14 @@ def password(hash):
     if doc.exists:
         return doc.to_dict()
         # passphrase would be under "pass"
-    else:
-        return "No such document!"
+
+    return jsonify({
+        'status': '0',
+        'error': f"User {hash} not found"
+    })
 
 ## GET HASH OF CUSTOMERS IN ALL COMPANY
-@app.route("/company/<company>")
+@app.route("/company/<company>", methods=['GET'])
 def all_company(company):
 
     docs = (
@@ -83,5 +114,15 @@ def all_company(company):
 
     for doc in docs:
         results[doc.id] = doc.to_dict()
+    if len(results) > 0:
+        return results
+    return jsonify({
+        'status': '0',
+        'error': f"User {company} not found"
+    })
 
-    return results
+
+@app.route("/test", method=['GET'])
+def test():
+    print("testtttt", file=sys.stderr)
+    return "test"
