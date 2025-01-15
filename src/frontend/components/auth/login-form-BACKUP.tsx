@@ -30,12 +30,42 @@ export function LoginForm({ type, onSubmit }: LoginFormProps) {
 
     // Redirect based on the type
     if (type === 'personal') {
-      router.push('/dashboard/companies') // Redirect to personal page
+      router.push('/personal/dashboard') // Redirect to personal page
     } else if (type === 'enterprise') {
-      router.push('/dashboard/insights') // Redirect to enterprise page
+      router.push('/enterprise/dashboard') // Redirect to enterprise page
     }
 
-    };
+    
+    // Hash the password (ensure you've imported sha3_512 or similar)
+    const hashedPassword = sha3_512(password).toString();
+
+    try {
+      const response = await axios.post('http://localhost:5000/login', {
+        email: email,
+        hashedPassword: hashedPassword
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      console.log(response.data);
+
+      if (response.data.status && response.data.type == 'company') {
+        router.push("/dashboard/insights")
+      } else if (response.data.status && response.data.type == 'user') {
+        router.push("/dashboard/inbox")
+      }
+      else {
+        setMessage(`Error: ${response.data.error}`);
+      }
+    } catch (error) {
+      console.error('Error during API request:', error);
+      setMessage('Error connecting to the server.');
+    }
+  };
+
+  }
 
   return (
     <div className="min-h-screen flex flex-col p-4">

@@ -31,7 +31,7 @@ export function CompanyList() {
   return (
     <div className="min-h-screen bg-white">
       <div className="p-4">
-        <Link href="/dashboard" className="flex items-center mb-4 text-sm">
+        <Link href="/dashboard/companies" className="flex items-center mb-4 text-sm">
           <Home className="w-4 h-4 mr-2" />
           Go Home
         </Link>

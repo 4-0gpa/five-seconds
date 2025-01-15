@@ -15,6 +15,7 @@ import {
 } from 'chart.js'
 import { Home } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 ChartJS.register(
   CategoryScale,
@@ -28,6 +29,8 @@ ChartJS.register(
 )
 
 export function BusinessInsights() {
+  const router = useRouter()
+
   const lineData = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
     datasets: [
@@ -55,13 +58,27 @@ export function BusinessInsights() {
     ],
   }
 
+  // Handle "Go to Broadcast" button click
+  const handleGoToBroadcast = () => {
+    // Directly use router.push to route to the broadcast page
+    router.push('/dashboard/broadcast')
+  }
+
   return (
     <div className="min-h-screen bg-white">
       <div className="p-4">
-        <Link href="/dashboard" className="flex items-center mb-4 text-sm">
+        <Link href="/dashboard/broadcast" className="flex items-center mb-4 text-sm">
           <Home className="w-4 h-4 mr-2" />
           Go Home
         </Link>
+        
+        {/* "Go to Broadcast" button positioned at the top-right */}
+        <button
+          onClick={handleGoToBroadcast}
+          className="absolute top-4 right-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+        >
+          Go to Broadcast
+        </button>
         
         <h1 className="text-2xl font-bold mb-6">Business Insights</h1>
         
@@ -82,4 +99,3 @@ export function BusinessInsights() {
     </div>
   )
 }
-
