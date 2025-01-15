@@ -78,7 +78,9 @@ def hash_creation():
     information = {
         "hashed_user_email": hashed_user_email,
         "hashed_company_email": hashed_company_email,
-        "salt_phrase": salt_phrase
+        "salt_phrase": salt_phrase,
+        "passphrase": value,
+        "key": key
     }
 
     db.collection("PASSPHRASE").document(key).set({

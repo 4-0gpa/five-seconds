@@ -9,21 +9,22 @@ interface Company {
   id: string
   name: string
   logo: string
+  path: string // Added the path for the slug
 }
 
 const MOCK_COMPANIES: Company[] = [
-  { id: '1', name: 'Singtel', logo: '/placeholder.svg?height=40&width=100' },
-  { id: '2', name: 'Starhub', logo: '/placeholder.svg?height=40&width=100' },
-  { id: '3', name: 'Simba', logo: '/placeholder.svg?height=40&width=100' },
-  { id: '4', name: 'SPX Capital', logo: '/placeholder.svg?height=40&width=100' },
-  { id: '5', name: 'SGH', logo: '/placeholder.svg?height=40&width=100' },
-  { id: '6', name: 'SGX Group', logo: '/placeholder.svg?height=40&width=100' },
-  { id: '7', name: 'STB', logo: '/placeholder.svg?height=40&width=100' },
+  { id: '1', name: 'Singtel', logo: '/placeholder.svg?height=40&width=100', path: 'singtel' },
+  { id: '2', name: 'Starhub', logo: '/placeholder.svg?height=40&width=100', path: 'starhub' },
+  { id: '3', name: 'Simba', logo: '/placeholder.svg?height=40&width=100', path: 'simba' },
+  { id: '4', name: 'SPX Capital', logo: '/placeholder.svg?height=40&width=100', path: 'spx_capital' },
+  { id: '5', name: 'SGH', logo: '/placeholder.svg?height=40&width=100', path: 'sgh' },
+  { id: '6', name: 'SGX Group', logo: '/placeholder.svg?height=40&width=100', path: 'sgx_group' },
+  { id: '7', name: 'STB', logo: '/placeholder.svg?height=40&width=100', path: 'stb' },
 ]
 
 export function CompanyList() {
   const [search, setSearch] = useState('')
-  const filteredCompanies = MOCK_COMPANIES.filter(company => 
+  const filteredCompanies = MOCK_COMPANIES.filter(company =>
     company.name.toLowerCase().includes(search.toLowerCase())
   )
 
@@ -49,9 +50,10 @@ export function CompanyList() {
         
         <div className="space-y-2">
           {filteredCompanies.map(company => (
-            <div
+            <Link
               key={company.id}
-              className="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100"
+              href={`/companies/${company.path}`} // Changed to use the `path` slug instead of `id`
+              className="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
             >
               <img
                 src={company.logo}
@@ -59,11 +61,10 @@ export function CompanyList() {
                 className="w-24 h-8 object-contain"
               />
               <span className="ml-4">{company.name}</span>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
     </div>
   )
 }
-

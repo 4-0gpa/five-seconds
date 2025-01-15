@@ -2,6 +2,8 @@
 
 Contains the actual backend code.
 
+Here, we are using Flask as the backend framework. Firebase is used for the database as it is free for our purposes. 
+
 # Setup
 
 * `cd` into the backend directory
